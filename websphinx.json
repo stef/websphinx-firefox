@@ -1,7 +1,6 @@
-// put into ~/.mozilla/native-messaging-hosts/websphinx.json or equivalent.
 {
   "name": "websphinx",
-  "description": "Host for communicating with PITCHFORKed Sphinx",
+  "description": "Host for communicating with PwdSphinx",
   "path": "%PATH%/websphinx.py",
   "type": "stdio",
   "allowed_extensions": [
