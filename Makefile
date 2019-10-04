@@ -2,6 +2,6 @@ src = websphinx/*.js websphinx/*.json websphinx/*.html websphinx/*.css websphinx
 
 all: websphinx.xpi
 
-websphinx.xpi: $(EXT_FILES)
+websphinx.xpi: $(src)
 	rm -f websphinx.xpi
 	(cd websphinx; zip -r ../websphinx.xpi *.js *.json *.html *.css *.png _locales)
