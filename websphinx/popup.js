@@ -377,7 +377,7 @@ class Sphinx {
       else if(this.user!='' && this.search.value!='' && this.user!=this.search.value) this.user=this.search.value;
 
       if(this.user == '') setTimeout(() => {this.search.focus();}, 100);
-      else setTimeout(() => {size_wdgt.focus();}, 100);
+      else setTimeout(() => {document.getElementById("pwdlen").focus();}, 100);
     } else {
       this.search.addEventListener("keydown", this.onKeyDown);
       autofill.addEventListener("click", this.onAutoClick);
