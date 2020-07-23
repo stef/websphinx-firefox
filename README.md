@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2018, Marsiske Stefan 
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
 # WebSphinx Firefox addon
 
 SPHINX: a password **S**tore that **P**erfectly **H**ides from **I**tself
