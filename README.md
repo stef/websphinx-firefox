@@ -55,33 +55,97 @@ users that the password storage knows about.
 
 ## Installation
 
-You can install the webextension from the [firefox addon store](https://addons.mozilla.org/en-US/firefox/addon/websphinx/).
+Websphinx consists of two parts, the frontend which is the addon. And the backend which handles everything.
 
-The WebSphinx extension requires the installation of a native messaging host. If you are on Linux or MacOS you need [pwdsphinx](https://github.com/stef/pwdsphinx), if you are on Windows you need [winsphinx](https://github.com/stef/winsphinx).
+You can install the addon  from the [firefox addon store](https://addons.mozilla.org/en-US/firefox/addon/websphinx/).
 
-The windows installer should take care of everything. But if you are on Linux/BSD/MacOS you need to change *%PATH%* in *websphinx.json* so it refers to *websphinx.py* which came with pwdsphinx.
+The WebSphinx addon requires the installation of a native messaging host - which is terminology and it really means backend.
 
-### Native Messaging Host Manifest
+### Windows
 
-Copy *websphinx.json*, depending on your browser to finish the installation:
+If you are on Windows you need [winsphinx](https://github.com/stef/winsphinx), which should take care of everything.
+
+### Linux
+If you are on Linux you need to install some dependencies:
+
+#### libsphinx
+
+1. git clone https://github.com/stef/libsphinx
+2. cd libsphinx/src
+3. sudo apt install install python3 libsodium libsodium-dev
+3. sudo PREFIX=/usr make install
+
+#### pwdsphinx
+
+you also need to install [pwdsphinx](https://github.com/stef/pwdsphinx), which can be done simply by:
+
+1. sudo pip3 install pwdsphinx
+2. you'll also need to install a graphical pinentry,
+   - either sudo apt-get install pinentry-qt
+   - or sudo apt-get install pinentry-gtk2
+   - or sudo apt-get install pinentry-gnome3
+   - or sudo apt-get install pinentry-fltk
+
+(or anything equivalent to apt-get install on your OS)
+
+And set the pinentry variant if it is not invoked with
+`/usr/bin/pinentry` in your sphinx config file in the `websphinx`
+section
+
+Your sphinx config file can be in a couple of locations:
+ - globally: `/etc/sphinx/config`
+ - for your user: `~/.sphinxrc`
+ - or also:`~/.config/sphinx/config`
+ - and always in the current directory.
+
+To set the pinentry path, add or modify to have a section like this:
+
+```
+[websphinx]
+pinentry=/usr/bin/pinentry-gtk-2
+```
+
+#### Native Messaging Host Manifest
+
+Copy [*websphinx.json*](https://github.com/stef/websphinx-firefox/raw/master/websphinx.json), depending on your browser to finish the installation:
 
 - Linux/BSD
   - User only: `~/.mozilla/native-messaging-hosts/websphinx.json`
   - System-wide: `/usr/{lib,lib64,share}/mozilla/native-messaging-hosts/websphinx.json`
-- MacOS
-  - `/Library/Application Support/Mozilla/NativeMessagingHosts/websphinx.json`
 
-### Pinentry
+You need to change *%PATH%* in *websphinx.json* so it refers to *websphinx.py* which came with pwdsphinx.
 
-You also need to install one of the X11 pinentry packages, choose according to your taste:
- - either `apt-get install pinentry-qt` (or anything equivalent on your OS)
- - or `apt-get install pinentry-gtk2`
- - or `apt-get install pinentry-gnome3`
- - or `apt-get install pinentry-fltk`
+1. `mkdir -p ~/.mozilla/native-messaging-hosts`
+2. `curl -Lo ~/.mozilla/native-messaging-hosts/websphinx.json https://github.com/stef/websphinx-firefox/raw/master/websphinx.json`
 
-and set the pinentry variant if it is not invoked with
-`/usr/bin/pinentry` in your sphinx config file in the `websphinx`
-section.
+if you followed this guide, `websphinx` should be installed in `/usr/bin` and you should replace the `%PATH%` in `~/.mozilla/native-messaging-hosts/websphinx.json` to `/usr/bin` so the file looks like this:
+
+```
+{
+  "name": "websphinx",
+  "description": "Host for communicating with pwdphinx",
+  "path": "/usr/bin/websphinx",
+  "type": "stdio",
+  "allowed_extensions": [
+    "sphinx@ctrlc.hu"
+  ]
+}
+
+```
+
+### Final step
+
+Restart your browser in which the addon is installed and enjoy.
+
+### MacOS
+
+Try to translate the steps from Linux to your system, and possibly provide a PR so it can be added here.
+
+#### Native Messaging Host Manifest
+
+Copy [*websphinx.json*](https://github.com/stef/websphinx-firefox/raw/master/websphinx.json) to `/Library/Application Support/Mozilla/NativeMessagingHosts/websphinx.json`
+
+You need to change *%PATH%* in *websphinx.json* so it refers to *websphinx.py* which came with pwdsphinx.
 
 ## Credits
 
